@@ -1,0 +1,175 @@
+File Management System
+-----
+2026-08-21
+-----
+File has been downloaded from a source and is moved to /Downloads, there works script which gives them chmod 400, transliteration on Russian, and add '_' instead ' '. Also, for suspicious files manually works the Clamar antivirus scanner. Useful files receive a tag, useless and one-time go to the trash.
+
+After that the files are moved to /Documents with their tags. In this place they received chmod 600. Secret files are moved to /Documents/protected/. In /protected they are changed their owner to the user Guard with chmod 600, other users cannot open this directory and to do something with the files.
+
+After that the files are moved to /Archive, if they can be useful in the future, or it is required to save it; otherwise, the files go to the trash.
+-----
+1. Vectors:
+    Stucture
+    Cyber-securtiy
+    Automatisation
+-----
+2. Ideology:
+    1. Mistrust all the downloaded files;
+    2. Give rights only if it is required;
+    3. Set tags;
+    4. Delete unnessary files;
+    5. Make backups;
+    6. Encrypt secret files.
+-----
+3. Life Circle of Files:
+    /Downloads -> /Documents -> /Archive -> /Wastebin -> Deleting
+-----
+4. File System:
+
+.
+├── Archive
+├── Desktop
+├── Documents
+├── Downloads
+│   ├── browsers
+│   │   ├── brave
+│   │   ├── chrome
+│   │   ├── firefox
+│   │   ├── librewolf
+│   │   └── mullvad
+│   └── others
+├── Music
+├── Pictures
+├── Public
+├── Templates
+└── Videos
+-----
+5. Tags List:
+
+user.xdg.tags project/home *man
+user.xdg.tags project/languages
+user.xdg.tags project/development
+
+user.xdg.tags lang/en *man + auto
+user.xdg.tags lang/de
+user.xdg.tags lang/fr
+user.xdg.tags lang/zh
+user.xdg.tags lang/ar
+user.xdg.tags lang/ru
+
+user.xdg.tags type/agenda *man + auto
+user.xdg.tags type/report
+user.xdg.tags type/plan
+user.xdg.tags type/key
+user.xdg.tags type/code
+user.xdg.tags type/bookmark
+
+user.xdg.tags extension/py *auto
+user.xdg.tags extension/sql
+user.xdg.tags extension/html
+user.xdg.tags extension/asc
+user.xdg.tags extension/txt
+user.xdg.tags extension/pdf
+user.xdg.tags extension/odt
+user.xdg.tags extension/ods
+user.xdg.tags extension/db
+user.xdg.tags extension/sh
+-----
+6. Script:
+
+Security Setting
+find Downloads/ -type f -exec chmod 600 {} +
+---
+Security Check
+ls -l $HOME/Downloads/ | grep rwx
+---
+Standartisation Setting
+find $HOME/Downloads -type f -exec rename -a ' ' '_' {} +
+---
+Standartisation Checking
+ls $HOME/Downloads | grep ' '
+---
+Tags Creating
+setfattr -n user.xdg.tags -v "project/development,project/languages,project/home,extension/py,extension/html,extension/sql,extension/asc,extension/txt,extension/pdf,extension/odt,extension/ods,extension/db,extension/sh,lang/en,lang/ru" tags_creator.txt
+---
+Tags Setting
+find "$HOME/Downloads" -type f -name "*.pdf" -exec setfattr -n user.xdg.tags -v "extension/pdf" {} +
+find "$HOME/Downloads" -type f -name "*.asc" -exec setfattr -n user.xdg.tags -v "extension/asc" {} +
+find "$HOME/Downloads" -type f -name "*.txt" -exec setfattr -n user.xdg.tags -v "extension/txt" {} +
+find "$HOME/Downloads" -type f -name "*.sql" -exec setfattr -n user.xdg.tags -v "extension/sql" {} +
+find "$HOME/Downloads" -type f -name "*.html" -exec setfattr -n user.xdg.tags -v "extension/html" {} +
+find "$HOME/Downloads" -type f -name "*.py" -exec setfattr -n user.xdg.tags -v "extension/py" {} +
+find "$HOME/Downloads" -type f -name "*.db" -exec setfattr -n user.xdg.tags -v "extension/db" {} +
+find "$HOME/Downloads" -type f -name "*.sh" -exec setfattr -n user.xdg.tags -v "extension/sh" {} +
+
+Tags Updates
+balooctl6 check
+---
+find "$HOME/Downloads" -type f user.xdg.tags "secret/secret" -exec ...
+---
+lsblk -f | grep sda -> $HOME/Downloads/sda_report.txt
+---
+df -hT
+---
+Translator
+rename -a 'А' 'A' *; rename -a 'Б' 'B' *; rename -a 'В' 'V' *; rename -a 'Г' 'G' *; rename -a 'Д' 'D' *; rename -a 'Е' 'E' *; rename -a 'Ё' 'E' *; rename -a 'Ж' 'ZH' *; rename -a 'З' 'Z' *; rename -a 'И' 'I' *; rename -a 'Й' 'J' *; rename -a 'К' 'K' *; rename -a 'Л' 'L' *; rename -a 'М' 'M' *; rename -a 'Н' 'N' *; rename -a 'О' 'O' *; rename -a 'П' 'P' *; rename -a 'Р' 'R' *; rename -a 'С' 'S' *; rename -a 'Т' 'T' *; rename -a 'У' 'U' *; rename -a 'Ф' 'F' *; rename -a 'Х' 'KH' *; rename -a 'Ц' 'C' *; rename -a 'Ч' 'CH' *; rename -a 'Ш' 'SH' *; rename -a 'Щ' 'SHH' *; rename -a 'Ъ' '' *; rename -a 'Ы' 'Y' *; rename -a 'Ь' '' *; rename -a 'Э' 'E' *; rename -a 'Ю' 'YU' *; rename -a 'Я' 'YA' *;
+
+rename -a 'а' 'a' *; rename -a 'б' 'b' *; rename -a 'в' 'v' *; rename -a 'г' 'g' *; rename -a 'д' 'd' *; rename -a 'е' 'e' *; rename -a 'ё' 'e' *; rename -a 'ж' 'zh' *; rename -a 'з' 'z' *; rename -a 'и' 'i' *; rename -a 'й' 'j' *; rename -a 'к' 'k' *; rename -a 'л' 'l' *; rename -a 'м' 'm' *; rename -a 'н' 'n' *; rename -a 'о' 'o' *; rename -a 'п' 'p' *; rename -a 'р' 'r' *; rename -a 'с' 's' *; rename -a 'т' 't' *; rename -a 'у' 'u' *; rename -a 'ф' 'f' *; rename -a 'х' 'kh' *; rename -a 'ц' 'c' *; rename -a 'ч' 'ch' *; rename -a 'ш' 'sh' *; rename -a 'щ' 'shh' *; rename -a 'ъ' '' *; rename -a 'ы' 'y' *; rename -a 'ь' '' *; rename -a 'э' 'e' *; rename -a 'ю' 'yu' *; rename -a 'я' 'ya' *
+---
+Antivirus
+toolbox create clamav-box
+toolbox enter clamav-box
+sudo dnf install clamav clamav-update
+sudo freshclam
+clamscan -r --infected --bell ~/Downloads
+---
+    flesh-card copier
+    backhups
+    other users access
+    logic (words)
+    sandbox env
+    moving
+-----
+7. Full Sripts
+-----
+Extensions Tags
+-----
+#!/bin/bash
+
+find "$HOME/Downloads" -type f -name "*.pdf" -exec setfattr -n user.xdg.tags -v "extension/pdf" {} +
+find "$HOME/Downloads" -type f -name "*.asc" -exec setfattr -n user.xdg.tags -v "extension/asc" {} +
+find "$HOME/Downloads" -type f -name "*.txt" -exec setfattr -n user.xdg.tags -v "extension/txt" {} +
+find "$HOME/Downloads" -type f -name "*.sql" -exec setfattr -n user.xdg.tags -v "extension/sql" {} +
+find "$HOME/Downloads" -type f -name "*.html" -exec setfattr -n user.xdg.tags -v "extension/html" {} +
+find "$HOME/Downloads" -type f -name "*.py" -exec setfattr -n user.xdg.tags -v "extension/py" {} +
+find "$HOME/Downloads" -type f -name "*.db" -exec setfattr -n user.xdg.tags -v "extension/db" {} +
+find "$HOME/Downloads" -type f -name "*.sh" -exec setfattr -n user.xdg.tags -v "extension/sh" {} +
+
+echo 'The tags have been set by the extension!'
+-----
+Standartisation
+-----
+#!/bin/bash
+
+find $HOME/Downloads/ -type f -exec chmod 400 {} +
+
+ls -l -R $HOME/Downloads/ | grep rwx-
+
+echo 'Export need to be drwx------.'
+
+find $HOME/Downloads -type f -exec rename -a ' ' '_' {} +
+
+ls $HOME/Downloads | grep ' '
+
+echo 'No changes?'
+-----
+Tags Tree
+-----
+#!/bin/bash
+
+touch tags_creator.txt
+
+mv tags_creator.txt $HOME/Downloads
+
+setfattr -n user.xdg.tags -v "project/development,project/languages,project/home,extension/py,extension/html,extension/sql,extension/asc,extension/txt,extension/pdf,extension/odt,extension/ods,extension/db,extension/sh,lang/en,lang/ru" $HOME/Downloads/tags_creator.txt
+-----
